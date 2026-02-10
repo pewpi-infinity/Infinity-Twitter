@@ -11,5 +11,359 @@
   <li><a href="https://github.com/pewpi-infinity/Infinity-Twitter">🧱 GitHub Repo</a></li>
   <li><a href="https://pewpi-infinity.github.io/Infinity-Twitter/">👑 Live Page</a></li>
 </ul>
+
+<!-- ✅ Android Blue/White Chat Terminal + Buyer Ad Packages -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/xterm/css/xterm.css" />
+
+<style>
+  :root{
+    --a-blue:#1677ff;
+    --a-blue2:#0b4fd6;
+    --a-ice:#eaf2ff;
+    --a-ink:#0b1020;
+    --a-card:#0f162a;
+    --a-line:rgba(255,255,255,.10);
+  }
+
+  /* Floating chat button */
+  .chat-fab{
+    position:fixed; right:18px; bottom:18px; z-index:9999;
+    display:flex; align-items:center; gap:10px;
+    padding:12px 14px;
+    background:linear-gradient(180deg,var(--a-blue),var(--a-blue2));
+    color:white; border:1px solid rgba(255,255,255,.15);
+    border-radius:999px;
+    box-shadow:0 14px 30px rgba(0,0,0,.35);
+    font:600 14px/1.0 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    cursor:pointer; user-select:none;
+  }
+  .chat-fab .dot{
+    width:10px;height:10px;border-radius:50%;
+    background:#7CFF7C; box-shadow:0 0 18px rgba(124,255,124,.7);
+  }
+
+  /* Slide-up panel */
+  .term-sheet{
+    position:fixed; left:0; right:0; bottom:-100%;
+    z-index:9998;
+    transition:bottom .22s ease;
+    padding:14px;
+  }
+  .term-sheet.open{ bottom:0; }
+
+  .term-panel{
+    max-width:980px; margin:0 auto;
+    border-radius:18px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow:0 22px 60px rgba(0,0,0,.55);
+    background:linear-gradient(180deg, rgba(22,119,255,.18), rgba(15,22,42,.98));
+    backdrop-filter: blur(10px);
+  }
+
+  .term-topbar{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:12px 14px;
+    background:linear-gradient(180deg, rgba(22,119,255,.35), rgba(22,119,255,.12));
+    border-bottom:1px solid rgba(255,255,255,.10);
+    color:white;
+    font:700 14px/1.1 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+  }
+  .term-topbar small{
+    font-weight:600; opacity:.85;
+  }
+  .term-actions{
+    display:flex; gap:10px; align-items:center;
+  }
+  .btn-mini{
+    border:1px solid rgba(255,255,255,.16);
+    background:rgba(0,0,0,.22);
+    color:white;
+    padding:8px 10px;
+    border-radius:10px;
+    font:700 12px/1 system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    cursor:pointer;
+  }
+  .btn-mini:hover{ background:rgba(0,0,0,.32); }
+
+  .term-body{
+    display:grid;
+    grid-template-columns: 1.2fr .8fr;
+    gap:12px;
+    padding:12px;
+    background:rgba(11,16,32,.72);
+  }
+
+  @media (max-width:860px){
+    .term-body{ grid-template-columns: 1fr; }
+  }
+
+  /* Terminal area */
+  .terminal-wrap{
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.10);
+    background:linear-gradient(180deg, rgba(234,242,255,.08), rgba(0,0,0,.35));
+    overflow:hidden;
+  }
+  .terminal-head{
+    padding:10px 12px;
+    display:flex; align-items:center; justify-content:space-between;
+    border-bottom:1px solid rgba(255,255,255,.08);
+    color:#eaf2ff;
+    font:700 13px/1 system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  }
+  .terminal-head span{
+    opacity:.9; font-weight:700;
+  }
+  #xterm{
+    height:340px;
+    padding:10px;
+  }
+
+  /* Chat input row */
+  .chat-row{
+    display:flex; gap:10px; padding:10px;
+    border-top:1px solid rgba(255,255,255,.08);
+    background:rgba(0,0,0,.22);
+  }
+  .chat-row input{
+    flex:1;
+    padding:12px 12px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(234,242,255,.08);
+    color:#eaf2ff;
+    outline:none;
+    font:600 14px system-ui,-apple-system,Segoe UI,Roboto,Arial;
+  }
+  .chat-row button{
+    padding:12px 14px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.14);
+    background:linear-gradient(180deg,var(--a-blue),var(--a-blue2));
+    color:white;
+    font:800 13px system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    cursor:pointer;
+  }
+
+  /* Buyer ad / packages */
+  .ad-card{
+    border-radius:14px;
+    border:1px solid rgba(255,255,255,.10);
+    background:linear-gradient(180deg, rgba(234,242,255,.08), rgba(0,0,0,.28));
+    padding:12px;
+    color:#eaf2ff;
+  }
+  .ad-card h3{
+    margin:0 0 8px 0;
+    font:900 14px system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    letter-spacing:.2px;
+  }
+  .ad-line{
+    margin:0 0 10px 0;
+    opacity:.95;
+    font:700 12px/1.35 system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:rgba(22,119,255,.15);
+    border:1px dashed rgba(255,255,255,.18);
+    padding:10px;
+    border-radius:12px;
+  }
+  .pkg{
+    border:1px solid rgba(255,255,255,.10);
+    border-radius:14px;
+    padding:10px;
+    margin-top:10px;
+    background:rgba(0,0,0,.20);
+  }
+  .pkg b{ display:block; font:900 13px system-ui; margin-bottom:6px; }
+  .pkg ul{ margin:0; padding-left:16px; opacity:.92; font:600 12px/1.4 system-ui; }
+  .pkg a{
+    display:inline-block; margin-top:10px;
+    padding:10px 12px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,.14);
+    background:rgba(234,242,255,.10);
+    color:#eaf2ff;
+    text-decoration:none;
+    font:900 12px system-ui;
+  }
+  .pkg a:hover{ background:rgba(234,242,255,.16); }
+</style>
+
+<div class="chat-fab" id="chatFab" title="Open terminal chat">
+  <span class="dot"></span>
+  <span>CHAT</span>
+</div>
+
+<div class="term-sheet" id="termSheet" aria-hidden="true">
+  <div class="term-panel">
+    <div class="term-topbar">
+      <div>
+        Android Terminal • <small>Octave Chat</small>
+      </div>
+      <div class="term-actions">
+        <button class="btn-mini" id="btnClear">Clear</button>
+        <button class="btn-mini" id="btnClose">Close</button>
+      </div>
+    </div>
+
+    <div class="term-body">
+      <div class="terminal-wrap">
+        <div class="terminal-head">
+          <span>Terminal</span>
+          <span id="termStatus" style="opacity:.85;font-weight:800;">LOCAL UI</span>
+        </div>
+        <div id="xterm"></div>
+        <div class="chat-row">
+          <input id="chatInput" placeholder="Type here… (ex: help, whoami, list packages)" />
+          <button id="chatSend">Send</button>
+        </div>
+      </div>
+
+      <aside class="ad-card">
+        <h3>Buyer Advertising Spot</h3>
+
+        <!-- ✅ Leave this line exactly as you asked -->
+        <p class="ad-line">marvaseater@gmail.com 808-342-9975 PayPal buy this advertising spot.</p>
+
+        <div class="pkg">
+          <b>Button #1 — Company + Logo + Website Link — $118</b>
+          <ul>
+            <li>Company name</li>
+            <li>Logo image</li>
+            <li>Website link</li>
+            <li>Buyer text area (word-limited by package)</li>
+          </ul>
+          <!-- Replace with your real PayPal checkout link -->
+          <a href="https://www.paypal.com/paypalme/REPLACE_ME/118" target="_blank" rel="noopener">
+            Buy It Now #1 ($118)
+          </a>
+        </div>
+
+        <div class="pkg">
+          <b>Button #2 — + Chart + Paragraph + Images — $300</b>
+          <ul>
+            <li>Everything in #1</li>
+            <li>1 chart</li>
+            <li>1 paragraph</li>
+            <li>Up to 5 images</li>
+          </ul>
+          <a href="https://www.paypal.com/paypalme/REPLACE_ME/300" target="_blank" rel="noopener">
+            Buy It Now #2 ($300)
+          </a>
+        </div>
+
+        <div class="pkg">
+          <b>Button #3 — Full Page Takeover (control, not ownership) — $5000</b>
+          <ul>
+            <li>Full-page ad takeover slot</li>
+            <li>Designs submitted and filtered through you</li>
+            <li>No ownership transfer</li>
+          </ul>
+          <a href="https://www.paypal.com/paypalme/REPLACE_ME/5000" target="_blank" rel="noopener">
+            Buy It Now #3 ($5000)
+          </a>
+        </div>
+
+        <div class="pkg" style="opacity:.95">
+          <b>Buyer Content Intake (Filtered)</b>
+          <ul>
+            <li>Buyer submits copy, links, logo, images</li>
+            <li>You approve before publishing</li>
+          </ul>
+          <a href="mailto:marvaseater@gmail.com?subject=Advertising%20Spot%20Submission&body=Company%3A%0AWebsite%3A%0APackage%3A%20%231%20/%20%232%20/%20%233%0ALogo%20link%20or%20attachment%3A%0ACopy%3A%0A">
+            Send Designs / Copy
+          </a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/xterm/lib/xterm.js"></script>
+<script>
+  // Terminal init
+  const term = new Terminal({
+    cursorBlink: true,
+    fontSize: 13,
+    fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace',
+    theme: {
+      background: '#0b1020',
+      foreground: '#eaf2ff',
+      cursor: '#1677ff',
+      selection: 'rgba(22,119,255,.35)'
+    }
+  });
+  term.open(document.getElementById('xterm'));
+  term.writeln("Octave • Android Terminal Ready");
+  term.writeln("Tip: this is the UI. To run real Termux commands, you must connect a backend shell.");
+  term.writeln("");
+
+  // Sheet open/close
+  const sheet = document.getElementById('termSheet');
+  const fab = document.getElementById('chatFab');
+  const closeBtn = document.getElementById('btnClose');
+  const clearBtn = document.getElementById('btnClear');
+
+  function openSheet(){
+    sheet.classList.add('open');
+    sheet.setAttribute('aria-hidden','false');
+    setTimeout(()=>document.getElementById('chatInput').focus(), 80);
+  }
+  function closeSheet(){
+    sheet.classList.remove('open');
+    sheet.setAttribute('aria-hidden','true');
+  }
+
+  fab.addEventListener('click', openSheet);
+  closeBtn.addEventListener('click', closeSheet);
+
+  // click outside panel to close (mobile-friendly)
+  sheet.addEventListener('click', (e)=>{
+    if(e.target === sheet) closeSheet();
+  });
+
+  clearBtn.addEventListener('click', ()=>{
+    term.clear();
+    term.writeln("Cleared.");
+  });
+
+  // Chat behavior (UI-only placeholder)
+  const input = document.getElementById('chatInput');
+  const send = document.getElementById('chatSend');
+
+  function handleSend(){
+    const msg = (input.value || "").trim();
+    if(!msg) return;
+    term.writeln("> " + msg);
+    input.value = "";
+
+    // Minimal local replies (until backend is connected)
+    const m = msg.toLowerCase();
+    if(m === "help"){
+      term.writeln("Commands:");
+      term.writeln("- help");
+      term.writeln("- packages");
+      term.writeln("- connect (explains backend hookup)");
+    } else if(m === "packages"){
+      term.writeln("Package #1: $118 (company + logo + link)");
+      term.writeln("Package #2: $300 (+ chart + paragraph + images)");
+      term.writeln("Package #3: $5000 (full takeover control, not ownership)");
+    } else if(m === "connect"){
+      term.writeln("To run real Termux/shell commands, host a backend shell (Termux or server) and connect via WebSocket.");
+      term.writeln("This page alone (GitHub Pages) cannot execute shell commands.");
+    } else {
+      term.writeln("UI terminal received: " + msg);
+      term.writeln("(Hook up backend to make this run real work.)");
+    }
+    term.writeln("");
+  }
+
+  send.addEventListener('click', handleSend);
+  input.addEventListener('keydown', (e)=>{
+    if(e.key === 'Enter') handleSend();
+  });
+</script>
+
 </body>
 </html>
