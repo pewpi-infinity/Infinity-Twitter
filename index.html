@@ -31,11 +31,20 @@ a{color:var(--ac);text-decoration:none;}
 .section h2{font-size:0.95rem;margin-bottom:8px;color:var(--gold);}
 
 .gadget-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:8px;}
-.gadget{background:var(--cd);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:8px;padding:10px;transition:all 0.15s;}
-.gadget:hover{border-color:var(--ac);transform:translateY(-2px);}
+.gadget{background:var(--cd);border:1px solid var(--bd);border-left:3px solid var(--ac);border-radius:8px;padding:10px;transition:all 0.15s;cursor:pointer;display:block;color:inherit;}
+.gadget:hover{border-color:var(--ac);transform:translateY(-2px);text-decoration:none;color:inherit;}
 .g-icon{font-size:1.5rem;}
 .g-name{font-weight:700;font-size:0.8rem;margin-top:2px;}
 .g-status{font-size:0.65rem;color:var(--mt);margin-top:2px;}
+
+.gadget-panel{display:none;background:var(--sf);border:1px solid var(--ac);border-radius:10px;padding:14px;margin:8px 12px;}
+.gadget-panel.open{display:block;}
+.gp-title{color:var(--ac);font-size:0.9rem;font-weight:700;margin-bottom:6px;}
+.gp-desc{color:var(--mt);font-size:0.75rem;margin-bottom:8px;}
+.gp-links{display:flex;gap:6px;flex-wrap:wrap;}
+.gp-btn{display:inline-block;background:var(--ac);color:#fff;border-radius:8px;padding:6px 14px;font-size:0.75rem;font-weight:700;}
+.gp-btn:hover{opacity:0.85;text-decoration:none;color:#fff;}
+.gp-btn.secondary{background:transparent;border:1px solid var(--bd);color:var(--text);}
 
 .intent{background:var(--sf);border:1px solid var(--bd);border-radius:10px;padding:12px;margin:12px;}
 .intent h3{color:var(--ac);font-size:0.85rem;margin-bottom:6px;}
@@ -45,6 +54,8 @@ a{color:var(--ac);text-decoration:none;}
 .eco-row{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;}
 .eco-chip{background:var(--cd);border:1px solid var(--bd);border-radius:20px;padding:4px 10px;font-size:0.65rem;white-space:nowrap;}
 .eco-chip:hover{border-color:var(--gold);}
+.spark-link{border-color:var(--ac);}
+.spark-link:hover{background:rgba(29,161,242,0.15);}
 
 .chat-fab{position:fixed;right:10px;bottom:10px;z-index:999;background:rgba(0,0,0,0.85);color:#fff;border:1px solid var(--bd);border-radius:999px;padding:8px 12px;font-weight:700;font-size:0.75rem;cursor:pointer;}
 .chat-panel{position:fixed;right:6px;bottom:50px;z-index:999;width:calc(100vw - 12px);max-width:360px;height:min(350px,55vh);background:rgba(11,15,20,0.95);border:1px solid var(--bd);border-radius:10px;display:none;flex-direction:column;overflow:hidden;}
@@ -83,11 +94,17 @@ a{color:var(--ac);text-decoration:none;}
 <div class="section">
   <h2>🐦 Gadgets & Tools</h2>
   <div class="gadget-grid">
-    <div class="gadget"><div class="g-icon">🐦</div><div class="g-name">Post Engine</div><div class="g-status">Ready</div></div>
-    <div class="gadget"><div class="g-icon">🐦</div><div class="g-name">Thread Builder</div><div class="g-status">Ready</div></div>
-    <div class="gadget"><div class="g-icon">🐦</div><div class="g-name">Trend Scanner</div><div class="g-status">Ready</div></div>
-    <div class="gadget"><div class="g-icon">🐦</div><div class="g-name">Micro Forge</div><div class="g-status">Ready</div></div>
+    <a class="gadget" href="https://pewpi-infinity.github.io/infinity-spark-signal/" data-spark="signal" onclick="event.preventDefault();showGadgetPanel(this,'signal','Post Engine')"><div class="g-icon">🐦</div><div class="g-name">Post Engine</div><div class="g-status">Click to launch</div></a>
+    <a class="gadget" href="https://pewpi-infinity.github.io/infinity-spark-stream/" data-spark="stream" onclick="event.preventDefault();showGadgetPanel(this,'stream','Thread Builder')"><div class="g-icon">🐦</div><div class="g-name">Thread Builder</div><div class="g-status">Click to launch</div></a>
+    <a class="gadget" href="https://pewpi-infinity.github.io/infinity-spark-beacon/" data-spark="beacon" onclick="event.preventDefault();showGadgetPanel(this,'beacon','Trend Scanner')"><div class="g-icon">🐦</div><div class="g-name">Trend Scanner</div><div class="g-status">Click to launch</div></a>
+    <a class="gadget" href="https://pewpi-infinity.github.io/infinity-spark-relay/" data-spark="relay" onclick="event.preventDefault();showGadgetPanel(this,'relay','Micro Forge')"><div class="g-icon">🐦</div><div class="g-name">Micro Forge</div><div class="g-status">Click to launch</div></a>
   </div>
+</div>
+
+<div class="gadget-panel" id="gadget-panel">
+  <div class="gp-title" id="gp-title"></div>
+  <div class="gp-desc" id="gp-desc"></div>
+  <div class="gp-links" id="gp-links"></div>
 </div>
 
 <div class="intent">
@@ -99,7 +116,27 @@ a{color:var(--ac);text-decoration:none;}
 </div>
 
 <div class="section">
-  <h2>🔗 Ecosystem</h2>
+  <h2>⚡ Connected Sparks</h2>
+  <div class="eco-row">
+    <a class="eco-chip spark-link" href="https://pewpi-infinity.github.io/infinity-spark-signal/">📶 Spark Signal</a>
+    <a class="eco-chip spark-link" href="https://pewpi-infinity.github.io/infinity-spark-stream/">🌊 Spark Stream</a>
+    <a class="eco-chip spark-link" href="https://pewpi-infinity.github.io/infinity-spark-beacon/">🗼 Spark Beacon</a>
+    <a class="eco-chip spark-link" href="https://pewpi-infinity.github.io/infinity-spark-relay/">📡 Spark Relay</a>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🔗 Related Categories</h2>
+  <div class="eco-row">
+    <a class="eco-chip" href="https://pewpi-infinity.github.io/infinity-facebook/">📘 Facebook</a>
+    <a class="eco-chip" href="https://pewpi-infinity.github.io/infinity-tiktok/">🎵 Tiktok</a>
+    <a class="eco-chip" href="https://pewpi-infinity.github.io/infinity-society/">🌆 Society</a>
+    <a class="eco-chip" href="https://pewpi-infinity.github.io/infinity-voice/">🗣️ Voice</a>
+  </div>
+</div>
+
+<div class="section">
+  <h2>🌐 Ecosystem</h2>
   <div class="eco-row">
     <a class="eco-chip" href="https://pewpi-infinity.github.io/infinity-crown-index/">👑 Crown Index</a>
     <a class="eco-chip" href="https://pewpi-infinity.github.io/infinity-master-hub/">🌐 Master Hub</a>
@@ -123,7 +160,7 @@ a{color:var(--ac);text-decoration:none;}
   <div class="chat-head"><span>🧱 Twitter Terminal</span><span id="cc" style="cursor:pointer">✕</span></div>
   <div class="chat-body" id="cb">
     <div class="chat-line" style="color:var(--gold)">Welcome to infinity-twitter</div>
-    <div class="chat-line" style="color:var(--mt)">Commands: help, gadgets, status, intent, ecosystem</div>
+    <div class="chat-line" style="color:var(--mt)">Commands: help, gadgets, status, intent, ecosystem, sparks, links, navigate [name]</div>
   </div>
   <div class="chat-bar">
     <input class="chat-in" id="ci" placeholder="Type a command..."/>
@@ -132,25 +169,51 @@ a{color:var(--ac);text-decoration:none;}
 </div>
 
 <script>
+// Gadget-to-Spark mapping
+var GADGET_MAP={"Post Engine": {"spark": "signal", "icon": "\ud83d\udcf6", "desc": "Signal processing and communication", "role": "Signal Processor", "url": "https://pewpi-infinity.github.io/infinity-spark-signal/"}, "Thread Builder": {"spark": "stream", "icon": "\ud83c\udf0a", "desc": "Data streaming and real-time processing", "role": "Stream Processor", "url": "https://pewpi-infinity.github.io/infinity-spark-stream/"}, "Trend Scanner": {"spark": "beacon", "icon": "\ud83d\uddfc", "desc": "Beacon signal for network discovery", "role": "Network Beacon", "url": "https://pewpi-infinity.github.io/infinity-spark-beacon/"}, "Micro Forge": {"spark": "relay", "icon": "\ud83d\udce1", "desc": "Signal relay and data transmission between sparks", "role": "Signal Relay", "url": "https://pewpi-infinity.github.io/infinity-spark-relay/"}};
+
+function showGadgetPanel(el,spark,gadgetName){
+  var info=GADGET_MAP[gadgetName];
+  if(!info)return;
+  var panel=document.getElementById("gadget-panel");
+  document.getElementById("gp-title").textContent=info.icon+" "+gadgetName+" → Spark "+spark.charAt(0).toUpperCase()+spark.slice(1);
+  document.getElementById("gp-desc").textContent=info.role+": "+info.desc;
+  document.getElementById("gp-links").innerHTML=
+    '<a class="gp-btn" href="'+info.url+'">🚀 Launch Spark '+spark+'</a>'+
+    '<a class="gp-btn secondary" href="https://pewpi-infinity.github.io/infinity-spark-core/">⚡ Spark Core</a>'+
+    '<a class="gp-btn secondary" href="https://pewpi-infinity.github.io/infinity-crown-index/">👑 Crown</a>';
+  panel.classList.add("open");
+  panel.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+// Rogers Chat
 (function(){
-  const fab=document.getElementById("cf"),panel=document.getElementById("cp"),
+  var fab=document.getElementById("cf"),panel=document.getElementById("cp"),
     body=document.getElementById("cb"),input=document.getElementById("ci"),
     send=document.getElementById("cs"),close=document.getElementById("cc");
-  const gadgets=["Post Engine", "Thread Builder", "Trend Scanner", "Micro Forge"];
-  function line(t,c){const d=document.createElement("div");d.className="chat-line";if(c)d.style.color=c;d.textContent=t;body.appendChild(d);body.scrollTop=body.scrollHeight;}
-  fab.onclick=()=>{panel.style.display="flex";input.focus();};
-  close.onclick=()=>{panel.style.display="none";};
+  var gadgets=["Post Engine", "Thread Builder", "Trend Scanner", "Micro Forge"];
+  function line(t,c){var d=document.createElement("div");d.className="chat-line";if(c)d.style.color=c;d.textContent=t;body.appendChild(d);body.scrollTop=body.scrollHeight;}
+  fab.onclick=function(){panel.style.display="flex";input.focus();};
+  close.onclick=function(){panel.style.display="none";};
   function run(){
-    const q=(input.value||"").trim().toLowerCase();if(!q)return;
+    var q=(input.value||"").trim().toLowerCase();if(!q)return;
     line("> "+q,"var(--ac)");input.value="";
-    if(q==="help")line("Commands: help, gadgets, status, intent, ecosystem","var(--mt)");
-    else if(q==="gadgets"){line("🐦 Gadgets:","var(--gold)");gadgets.forEach(g=>line("  "+g));}
+    if(q==="help")line("Commands: help, gadgets, status, intent, ecosystem, sparks, links, navigate [name]","var(--mt)");
+    else if(q==="gadgets"){line("🐦 Gadgets:","var(--gold)");gadgets.forEach(function(g){line("  "+g);});}
     else if(q==="status")line("🧱 infinity-twitter: ONLINE | Cart 804 | Connected","var(--ac)");
     else if(q==="intent")line("🧠 Mission: Microblog, threads, trending - Infinity style","var(--gold)");
     else if(q==="ecosystem")line("👑Crown 🌐Hub 💰Market ⚡Core 🔗Bridge 🖥️Terminal 🧱Octave 🎮Mario","var(--gold)");
-    else line("Unknown. Try: help","var(--mt)");
+    else if(q==="sparks")line("⚡ Connected sparks: spark-signal, spark-stream, spark-beacon, spark-relay","var(--gold)");
+    else if(q==="links")line("🔗 Related categories: facebook, tiktok, society, voice","var(--gold)");
+    else if(q.startsWith("navigate ")){
+      var target=q.replace("navigate ","").trim();
+      var url="https://pewpi-infinity.github.io/infinity-"+target+"/";
+      line("🧭 Navigating to "+target+"...","var(--ac)");
+      setTimeout(function(){window.location.href=url;},500);
+    }
+    else line("Unknown. Try: help, gadgets, sparks, links, navigate [name]","var(--mt)");
   }
-  send.onclick=run;input.onkeydown=e=>{if(e.key==="Enter")run();};
+  send.onclick=run;input.onkeydown=function(e){if(e.key==="Enter")run();};
 })();
 </script>
 </body>
