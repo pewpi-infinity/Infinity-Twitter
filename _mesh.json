@@ -20,7 +20,7 @@
   "sovereign_endpoint": "https://pewpi-infinity.github.io/sovereign-interface/",
   "crown_index": "https://pewpi-infinity.github.io/infinity-crown-index/",
   "auto_discovery": true,
-  "wired_at": "2026-02-17T08:15:42",
+  "wired_at": "2026-02-17T08:15:49",
   "links": {
     "self": "https://pewpi-infinity.github.io/Infinity-Twitter/",
     "github": "https://github.com/pewpi-infinity/Infinity-Twitter",
