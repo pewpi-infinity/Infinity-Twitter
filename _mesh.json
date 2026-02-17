@@ -1,0 +1,30 @@
+{
+  "mesh_version": "1.0.0",
+  "repo": "Infinity-Twitter",
+  "machine_type": "infinity-infra",
+  "role": "infrastructure",
+  "cart_logic": "cart_INFINITY_CROSS_MODULE_MESSENGER",
+  "color": "#3b82f6",
+  "upstream": [
+    "infinity-crown-index",
+    "infinity-crown-hub",
+    "mongoose.os"
+  ],
+  "downstream": [
+    "infinity-spark-node-20260201_031717",
+    "infinity-spark-node-20260201_031655",
+    "infinity-spark-node-20260201_031635",
+    "b55-20260214_062954",
+    "b55-20260213_221018"
+  ],
+  "sovereign_endpoint": "https://pewpi-infinity.github.io/sovereign-interface/",
+  "crown_index": "https://pewpi-infinity.github.io/infinity-crown-index/",
+  "auto_discovery": true,
+  "wired_at": "2026-02-17T08:15:42",
+  "links": {
+    "self": "https://pewpi-infinity.github.io/Infinity-Twitter/",
+    "github": "https://github.com/pewpi-infinity/Infinity-Twitter",
+    "crown": "https://pewpi-infinity.github.io/infinity-crown-index/",
+    "sovereign": "https://pewpi-infinity.github.io/sovereign-interface/"
+  }
+}
